@@ -25,3 +25,4 @@ jobs:
       - name: Terraform apply
         id: apply
         run: terraform apply -var-file=terraform.tfvars.json -auto-approve
+        
