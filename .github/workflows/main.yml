@@ -18,6 +18,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
       - name: Find and Replace
         run: |
+          ls -lan
           sed -i -e 's/ATLAS_API_PRIVATE_KEY/${{ secrets.ATLAS_API_PRIVATE_KEY }}/g' terraform.tfvars.json
           sed -i -e 's/ATLAS_API_PUBLIC_KEY/${{ secrets.ATLAS_API_PUBLIC_KEY }}/g' terraform.tfvars.json
           sed -i -e 's/ATLAS_ORG_ID/${{ secrets.ATLAS_ORG_ID }}/g' terraform.tfvars.json
