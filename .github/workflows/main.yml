@@ -1,0 +1,28 @@
+name: Deploy Atlas Cluster
+on:
+  workflow_dispatch:  
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - 'main'
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - name: Find and Replace
+        run: |
+          sed -i -e 's/ATLAS_API_PRIVATE_KEY/${{ secrets.ATLAS_API_PRIVATE_KEY }}/g' terraform.tfvars.json
+          sed -i -e 's/ATLAS_API_PUBLIC_KEY/${{ secrets.ATLAS_API_PUBLIC_KEY }}/g' terraform.tfvars.json
+          sed -i -e 's/ATLAS_ORG_ID/${{ secrets.ATLAS_ORG_ID }}/g' terraform.tfvars.json
+          sed -i -e 's/ATLAS_PROJECT_ID/${{ secrets.ATLAS_PROJECT_ID }}/g' terraform.tfvars.json
+      - run: terraform init
+      - name: Terraform plan
+        id: plan
+        run: terraform plan -var-file=terraform.tfvars.json -no-color
+      - name: Terraform apply
+        id: apply
+        run: terraform apply -var-file=terraform.tfvars.json -auto-approve
+        
