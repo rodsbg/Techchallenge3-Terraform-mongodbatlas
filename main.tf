@@ -44,7 +44,7 @@ resource "mongodbatlas_cluster" "fiap-cluster" {
       read_only_nodes = 0
     }
   }
-  cloud_backup = true
+  #cloud_backup = true
   auto_scaling_disk_gb_enabled = true
   mongo_db_major_version       = var.mongodb_version
 
