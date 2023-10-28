@@ -44,8 +44,8 @@ resource "mongodbatlas_cluster" "fiap-cluster" {
       read_only_nodes = 0
     }
   }
-  #cloud_backup = true
-  auto_scaling_disk_gb_enabled = true
+  cloud_backup = false
+  auto_scaling_disk_gb_enabled = false
   mongo_db_major_version       = var.mongodb_version
 
   # Provider Settings "block"
@@ -53,7 +53,7 @@ resource "mongodbatlas_cluster" "fiap-cluster" {
   provider_name               = "TENANT"
   #backing_provider_name       = "AWS"
   provider_region_name     = var.atlas_region
- 
+  
 }
 
 
