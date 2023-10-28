@@ -30,29 +30,29 @@ resource "mongodbatlas_project_ip_access_list" "ip" {
   ip_address = var.ip_address
 }
 
-# Create an Atlas Advanced Cluster 
-resource "mongodbatlas_advanced_cluster" "atlas-cluster" {
-  project_id = mongodbatlas_project.atlas-project.id
-  name = "${var.atlas_project_name}-${var.environment}-cluster"
+
+resource "mongodbatlas_cluster" "fiap-cluster" {
+  project_id   = mongodbatlas_project.atlas-project.id
+  name         = "${var.atlas_project_name}-${var.environment}-cluster"
   cluster_type = "REPLICASET"
-  backup_enabled = true
-  mongo_db_major_version = var.mongodb_version
   replication_specs {
-    region_configs {
-      electable_specs {
-        instance_size = var.cluster_instance_size_name
-        node_count    = 1
-      }
-      analytics_specs {
-        instance_size = var.cluster_instance_size_name
-        node_count    = 1
-      }
-      priority      = 7
-      provider_name = var.cloud_provider
-      region_name   = var.atlas_region
+    num_shards = 1
+    regions_config {
+      region_name     = var.atlas_region
+      electable_nodes = 1
+      priority        = 7
+      read_only_nodes = 0
     }
   }
+  cloud_backup = true
+  auto_scaling_disk_gb_enabled = true
+  mongo_db_major_version       = var.mongodb_version
+
+  # Provider Settings "block"
+  provider_name               = var.cloud_provider
+  provider_instance_size_name = var.cluster_instance_size_name
 }
+
 
 
 # Outputs to Display
