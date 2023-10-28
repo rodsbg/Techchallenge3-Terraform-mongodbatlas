@@ -41,7 +41,7 @@ resource "mongodbatlas_advanced_cluster" "atlas-cluster" {
     region_configs {
       electable_specs {
         instance_size = var.cluster_instance_size_name
-        node_count    = 3
+        node_count    = 1
       }
       analytics_specs {
         instance_size = var.cluster_instance_size_name
