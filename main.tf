@@ -51,7 +51,7 @@ resource "mongodbatlas_cluster" "fiap-cluster" {
   # Provider Settings "block"
   provider_instance_size_name = "M0"
   provider_name               = "TENANT"
-  backing_provider_name       = "AWS"
+  #backing_provider_name       = "AWS"
   provider_region_name     = var.atlas_region
  
 }
