@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
+      - name: Export Apis
+        id: exportapis
+        run: export MONGODB_ATLAS_PUBLIC_KEY="inprugnf"
+             export MONGODB_ATLAS_PRIVATE_KEY="2048c292-2cc4-4cc8-a991-d3aeb77d4847"
+
       - run: terraform init
       - name: Terraform plan
         id: plan
