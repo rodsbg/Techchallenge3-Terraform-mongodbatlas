@@ -1,29 +1,14 @@
+resource "mongodbatlas_cluster" "cluster-test" {
+  project_id              = "653c23027bd592646a42f993"
+  name                    = "cluster-test-global"
 
-
-# Create a Project
-resource "mongodbatlas_project" "atlas-project" {
-  org_id = var.atlas_org_id
-  name = var.atlas_project_name
+  # Provider Settings "block"
+  provider_name = "AWS"
+  backing_provider_name = "AWS"
+  provider_region_name = "US_EAST_1"
+  provider_instance_size_name = "M0"
 }
 
-# Create a Database User
-resource "mongodbatlas_database_user" "db-user" {
-  username = "user-1"
-  password = random_password.db-user-password.result
-  project_id = mongodbatlas_project.atlas-project.id
-  auth_database_name = "admin"
-  roles {
-    role_name     = "readWrite"
-    database_name = "${var.atlas_project_name}-db"
-  }
-}
-
-# Create a Database Password
-resource "random_password" "db-user-password" {
-  length = 16
-  special = true
-  override_special = "_%@"
-}
 
 # Outputs to Display
 output "atlas_cluster_connection_string" { value = mongodbatlas_advanced_cluster.atlas-cluster.connection_strings.0.standard_srv }
